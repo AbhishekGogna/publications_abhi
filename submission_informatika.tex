@@ -1,5 +1,8 @@
 \documentclass[english, biblatex]{lni}
 \addbibresource{informatika.bib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\graphicspath{ {./pictures/} }
 %%% To write an article in English, please use the option ``english'' in order
 %%% to get the correct hyphenation patterns and terms.
 %%% \documentclass[english]{class}
@@ -56,9 +59,15 @@ Europe-wide wheat breeding data spanning almost a decade and a half (2009 to 202
 
 Correction for the environmental effect in the integrated phenotypic data was performed according to the following model:
 
-\[
+\vspace{6pt}
+
+\hspace{0.5cm}\begin{minipage}{\dimexpr\linewidth-0.5cm}
+\begin{equation}
 y = \mu + G\tau + Eu + e,
-\]
+\end{equation}
+\end{minipage}
+
+\vspace{6pt}
 
 where \(y\) is the observation corrected for environmental effect (trial) for grain yield, \(G\) is the design matrix of genotypes, \(E\) is the design matrix of environments, \(\tau\) is the vector of genotypic effects, \(u\) is the vector of environmental effects, and \(e\) is the vector of residuals.
 
@@ -66,7 +75,59 @@ For the derivation of means across locations (Best Linear Unbiased Estimates, ab
 
 \textit{Haplotype based imputation was used to fill missing values in the integrated SNP array data}
 
-Similar to the phenotypic data, the genotypic data for six experimental series was inherited from \cite{zhao2021unlocking} and additional genotypic data was added to supplement the phenotypic data. In total this data holds the genetic information for ~ 14k genotypes spread across nine chips of varying marker densities and genotype overlap (Table 1). A reference chip (chip 9) was selected since it had maximum marker overlap with other chips and its maker's oligoes were retrieved from the original publication \cite{wang2014characterization}. The oligos were then used to get the physical position of respective SNP variants on Chinese spring v1 release of wheat genome (ref?). The reference and alternative SNP calls at the reference chip were used to judge if a marker was inverted in a given chip or not. And the pipeline (Fig. 1) was followed to integrate the arrays.
+Similar to the phenotypic data, the genotypic data for six experimental series was inherited from \cite{zhao2021unlocking} and additional genotypic data was added to supplement the phenotypic data. In total this data holds the genetic information for ~ 14k genotypes spread across nine chips of varying marker densities (Table \ref {chip_overview}) and genotype overlap (Table \ref {chip_overlap}). A reference chip (chip 9) was selected since it had maximum marker overlap with other chips and its maker's oligoes were retrieved from the original publication \cite{wang2014characterization}. The oligos were then used to get the physical position of respective SNP variants on Chinese spring v1 release of wheat genome (ref?). The reference and alternative SNP calls at the reference chip were used to judge if a marker was inverted in a given chip or not. And the pipeline  (Fig. \ref{fig_pipeline_marker}) was followed to integrate the arrays.
+
+
+\begin{table}[htbp]
+\centering
+%\setlength{\tabcolsep}{1pt}
+\caption{Overview of genotypic data derived from nine sources i.e. chip\textunderscore1 to chip\textunderscore9. The second and the third column shows the absolute number of genotypes and markers in any given chip.}
+\label{chip_overview}
+\begin{tabular}{ l c c c l }
+ \hline
+ chip{\textunderscore}name & Genotypes & Marker{\textunderscore}unique \\
+ \hline
+ chip\textunderscore1  & 901    & 21062 \\
+ chip\textunderscore2  & 725    & 20821 \\
+ chip\textunderscore3  & 155    & 35865 \\
+ chip\textunderscore4  & 145    & 81489 \\
+ chip\textunderscore5  & 1579   & 75761 \\
+ chip\textunderscore6  & 1707   & 14411 \\
+ chip\textunderscore7  & 968    & 11736 \\
+ chip\textunderscore8  & 1396   & 13006 \\
+ chip\textunderscore9  & 371    & 81587 \\
+ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\setlength{\tabcolsep}{5pt}
+\caption{Overview of genotypic data overlap derived from nine sources i.e. chip\textunderscore1 to chip\textunderscore9.  The upper and lower triangular half of the columns 2 to 10 shows the marker and genotype overlap between pairs of sources.}
+\label{chip_overlap}
+\begin{tabular}{ l c c c c c c c c c c l }
+ \hline
+ chip{\textunderscore}name  & chip\textunderscore1 & chip\textunderscore2 & chip\textunderscore3 & chip\textunderscore4 & chip\textunderscore5 & chip\textunderscore6 & chip\textunderscore7 & chip\textunderscore8 & chip\textunderscore9  \\
+ \hline
+ chip\textunderscore1   & NA      & 20821   & 14245   & 17835   & 16264   & 13584   & 11264   & 12552   & 17313\\
+ chip\textunderscore2   & 0       & NA      & 14245   & 17594   & 16264   & 13345   & 11264   & 12552   & 17313\\
+ chip\textunderscore3   & 0       & 0       & NA      & 34394   & 32729   & 11496   & 9769    & 10796   & 35865\\
+ chip\textunderscore4   & 0       & 0       & 0       & NA      & 75676   & 14388   & 11380   & 12275   & 77977\\
+ chip\textunderscore5   & 3       & 0       & 2       & 0       & NA      & 13000   & 11157   & 11603   & 75731\\
+ chip\textunderscore6   & 4       & 0       & 1       & 0       & 167     & NA      & 10814   & 11897   & 13735\\
+ chip\textunderscore7   & 3       & 0       & 1       & 0       & 48      & 71      & NA      & 10221   & 11730\\
+ chip\textunderscore8   & 2       & 0       & 6       & 0       & 15      & 13      & 18      & NA      & 12896\\
+ chip\textunderscore9   & 3       & 0       & 2       & 0       & 12      & 7       & 8       & 22      & NA   \\
+ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{pipeline_marker}
+    \caption{Outlines of the steps in merging the chips. Four chips colored grey to yellow are used for representation. For a subset of markers (indicated by red box), each marker was evaluated based on overlapping genotypes to correct for markers inversions and genotyping errors.}
+    \label{fig_pipeline_marker}
+\end{figure}
 
 The integrated arrays were further filtered for markers with high missing values as well as low minor allele frequency. Lastly, the integrated data was converted to a .vcf format \cite{danecek2011variant} for subsequent imputation with beagle 5.2 \cite{browning2018one}.The downstream processing involved using vcftools \cite{danecek2011variant} and plink \cite{purcell2007plink} to convert the string data .vcf file into numeric data coded 0,1, 2 accordingly for the number of genotype reference alleles. The hybrid genotypes were deduced form the parent genotypic data and were appended to the integrated parent genotypic matrix.
 
@@ -75,12 +136,21 @@ The integrated arrays were further filtered for markers with high missing values
 Daily climate data for 28 variables were obtained from KWS SAAT SE \& Co. KGaA and used to derive Environment covariables (ECs) to capture variations between environments. ECs were derived for each environment and were calculated as mean monthly values of 28 weather variables starting from 1st October of the respective year of an environment and ending on 31st August in the following year.
 
 The environment relationship matrix (\textit{ERM}) was then calculated as:
-\[
-\textit{ERM}_l = EC \cdot EC^T
-\]
-\[
-\textit{ERM}_nl = \exp\left(\frac{{\text{dist}(EC)}}{\theta}\right)
-\]
+
+\vspace{6pt}
+
+\begin{equation}
+\hspace{0.5cm}\textit{ERM}_l = EC \cdot EC^T
+\end{equation}
+
+\vspace{6pt}
+
+\begin{equation}
+\hspace{0.5cm}\textit{ERM}_{nl} = \exp\left(\frac{{\text{dist}(EC)}}{\theta}\right)
+\end{equation}
+
+\vspace{6pt}
+
 where EC is the scaled Environment covariate matrix, $EC^T$ is the transpose of the EC matrix, $\text{dist}(EC)$ is the Euclidean Distance matrix of EC, and $\theta$ is a scaling factor.
 
 The $\textit{ERM}_l$ matrix is a proxy for kinship between respective environments, while the $\textit{ERM}_nl$ matrix builds upon it and represents a Gaussian kernel for environmental effects.
@@ -115,7 +185,14 @@ The following cross-validation scenarios were implemented:
 \section{Results}
 \textit{The integrated genotypic data captures genetic groups between constituent populations} 
 
-The robustness of genotypic data integration was assessed by examining the pairwise $F_{st}$ statistic between major population groups and utilizing the integrated data for genomic predictions \cite{ref?} of those groups. The Exp\textunderscore5 population, which included hybrids and parents from a wide cross of elite lines with genebank material, served as an outgroup (Figure \ref{fig3}). The observed genetic bifurcation aligns with biological expectations, as the remaining population groups primarily consisted of elite lines and hybrids resulting from crosses between elite lines.
+The robustness of genotypic data integration was assessed by examining the pairwise $F_{st}$ statistic between major population groups and utilizing the integrated data for genomic predictions of those groups. The Exp\textunderscore5 population, which included hybrids and parents from a wide cross of elite lines with genebank material, served as an outgroup (Fig. \ref{fig_fst_plot}). The observed genetic bifurcation aligns with biological expectations, as the remaining population groups primarily consisted of elite lines and hybrids resulting from crosses between elite lines.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fst_plot}
+    \caption{$F_{st}$ statistic calculated between population groups indicate genetic divergence between the groups. The dendrogram was constructed by applying multidimensional scaling on pairwise $F_{st}$ matrix to show clustering between recently developed (outlined by the red box) and PGR derived population groups.}
+    \label{fig_fst_plot}
+\end{figure}
 
 \textit{The environment relationship matrix reveals no environment relationship structure} 
 
@@ -123,7 +200,14 @@ The ERM was utilized to examine the presence of environmental clusters, but the 
 
 \textit{Dynamic CNN outperforms E-GBLUP for predicting average line grain yield} 
 
-The performance of E-GBLUP and dynamic CNN models was benchmarked using three cross-validation scenarios. In the first scenario, traditional cross-validation was employed, where genotypes were randomly divided into a training and a test population in an 80:20 ratio. CNN model outperformed E-GBLUP for predicting line grain yield (Figure \ref{fig4}). For the second scenario, stratified cross-validation was implemented to account for genetic distinctness observed in one experimental series (Figure \ref{fig4}). The results showed slightly higher prediction accuracy in some cases compared to traditional cross-validation, but the overall trend of higher performance in case of lines was preserved here. The third scenario aimed to investigate the effect of utilizing BigData on prediction accuracy. Six scenarios were designed with gradually increasing training population sizes. The results demonstrated that as the training population size increased, the prediction accuracy improved, highlighting the utility of BigData for genomic prediction (Figure \ref{fig5}). Overall, Convolutional Neural Networks (CNN) exhibited superior performance compared to the traditional GBLUP based method, especially when dealing with extensive data or when flexibility in the genetic structure of training and test populations was required.
+The performance of E-GBLUP and dynamic CNN models was benchmarked using three cross-validation scenarios. In the first scenario, traditional cross-validation was employed, where genotypes were randomly divided into a training and a test population in an 80:20 ratio. CNN model outperformed E-GBLUP for predicting line grain yield (Fig. \ref{fig_pred_corr_res_NN_2}). For the second scenario, stratified cross-validation was implemented to account for genetic distinctness observed in one experimental series (Fig. \ref{fig_pred_corr_res_NN_2}). The results showed slightly higher prediction accuracy in some cases compared to traditional cross-validation, but the overall trend of higher performance in case of lines was preserved here. The third scenario aimed to investigate the effect of utilizing BigData on prediction accuracy. Six scenarios were designed with gradually increasing training population sizes. The results demonstrated that as the training population size increased, the prediction accuracy improved, highlighting the utility of BigData for genomic prediction (Figure \ref{fig5}). Overall, Convolutional Neural Networks (CNN) exhibited superior performance compared to the traditional GBLUP based method, especially when dealing with extensive data or when flexibility in the genetic structure of training and test populations was required.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{pred_corr_res_NN_2}
+    \caption{Genomic prediction accuracy (corr on y-axis between 0 to 1 ) of GBLUP and Convolutional Neural Networks (NN) for mean grain yield across sites under 5-fold cross validation (cv) and stratified cross validation (st). Results are shown separately for hybrids and lines.}
+    \label{fig_pred_corr_res_NN_2}
+\end{figure}
 
 \textit{All-CNN benefits from increased training set size but fails to outperform Ex-GBLUP} 
 
